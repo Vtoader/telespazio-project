@@ -1,0 +1,38 @@
+<canvasjs-chart *ngIf="chartOptions" [options]="chartOptions"
+    (chartInstance)="getChartInstance($event)"></canvasjs-chart>
+
+<div class="container-fluid">
+
+    <div class="row mt-3">
+        <div #table class="col-lg-6">
+            <table mat-table [dataSource]="eventLogsTable" (contentChanged)="hideLoader()">
+                <ng-container matColumnDef="timestamp">
+                    <th mat-header-cell *matHeaderCellDef> Time (UTC) </th>
+                    <td mat-cell *matCellDef="let element"> {{element.timestamp | formatDate | date: 'yyyy-MM-dd
+                        hh:mm:ss'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="level">
+                    <th mat-header-cell *matHeaderCellDef> Level </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span matTooltip="Warning" *ngIf="element.level === 'WARNING'"><img width="25"
+                                src="../../../../../assets/images/exclamation-triangle.svg" alt="icon"></span>
+                        <span matTooltip="Error" *ngIf="element.level === 'ERROR'"><img width="25"
+                                src="../../../../../assets//images/exclamation-mark.svg" alt="icon"></span>
+                        <span matTooltip="Info" *ngIf="element.level === 'INFO'"><img width="25"
+                                src="../../../../../assets//images/information.svg" alt="icon"></span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="message">
+                    <th mat-header-cell *matHeaderCellDef> Message </th>
+                    <td mat-cell *matCellDef="let element"> {{element.message}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (mouseover)="handleMouseOver(row.index)"
+                    (mouseleave)="handleMouseLeave(row.index)"></tr>
+            </table>
+        </div>
+    </div>
+</div>
