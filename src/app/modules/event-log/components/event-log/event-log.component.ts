@@ -29,6 +29,7 @@ export class EventLogComponent implements OnInit {
 
   getEventLogs() {
     this.eventLogService.getEventLogs().subscribe(res => {
+      //res.sort((a, b) => new Date(a.timestamp.substring(0, 19)).getTime() - new Date(b.timestamp.substring(0, 19)).getTime()); use if data doesnt come sorted
       this.eventLogs = res.map((elem, i) => {
         return { ...elem, index: i }
       })
